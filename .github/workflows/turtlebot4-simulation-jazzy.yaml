@@ -7,15 +7,15 @@ on:
     branches: 
       - main
     paths:
-      - turtlebot4-gz-simulation/**
-      - .github/workflows/turtlebot4-gz-simulation-jazzy.yml
+      - turtlebot4-simulation/**
+      - .github/workflows/turtlebot4-simulation-jazzy.yml
 
   pull_request:
     branches: 
       - main
     paths:
-      - turtlebot4-gz-simulation/**
-      - .github/workflows/turtlebot4-gz-simulation-jazzy.yml
+      - turtlebot4-simulation/**
+      - .github/workflows/turtlebot4-simulation-jazzy.yml
 
 
 env:
@@ -60,8 +60,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
-          context: ./turtlebot4-gz-simulation
-          file: turtlebot4-gz-simulation/Dockerfile
+          context: ./turtlebot4-simulation
+          file: turtlebot4-simulation/Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
