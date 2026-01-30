@@ -30,3 +30,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Set environment variables
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ENV ROS_DOMAIN_ID=0
+
+# Copy entrypoint script
+COPY ros_entrypoint.sh ros_entrypoint.sh
+
+RUN chmod +x /ros_entrypoint.sh
+
+ENTRYPOINT [ "/ros_entrypoint.sh" ]
