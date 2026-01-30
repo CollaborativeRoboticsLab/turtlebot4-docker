@@ -1,0 +1,32 @@
+services:
+  turtlebot4-simulation:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
+    command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py
+    environment:
+      - PYTHONUNBUFFERED=1                # GUI related
+      - DISPLAY                           # GUI related
+      - QT_X11_NO_MITSHM=1                # GUI related
+      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
+      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
+      - ROS_DOMAIN_ID=0
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+
+  turtlebot4-control:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-control:jazzy
+    command: ros2 launch turtlebot4_viz view_navigation.launch.py
+    environment:
+      - PYTHONUNBUFFERED=1                # GUI related
+      - DISPLAY                           # GUI related
+      - QT_X11_NO_MITSHM=1                # GUI related
+      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
+      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
+      - ROS_DOMAIN_ID=0
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
