@@ -1,4 +1,15 @@
 services:
+  turtlebot4-discovery:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-discovery:jazzy
+    environment:
+      - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - SERVER_ID=0
+      - SERVER_IP=127.0.0.1
+      - SERVER_PORT=11811
+    network_mode: host
+    restart: unless-stopped
+
   turtlebot4-simulation:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
     command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py
@@ -9,7 +20,8 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
     restart: unless-stopped
     privileged: true
     deploy:
@@ -23,6 +35,8 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
       - ./turtlebot4-simulation/gazebo_data:/root/.gazebo:rw       # Persist Gazebo downloads/models
+    depends_on:
+      - turtlebot4-discovery
 
   turtlebot4-control:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-control:jazzy
@@ -35,8 +49,8 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-       - LIBGL_ALWAYS_SOFTWARE=0           # Use GPU rendering if available
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
     restart: unless-stopped
     privileged: true
     deploy:
@@ -49,3 +63,5 @@ services:
     network_mode: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+    depends_on:
+      - turtlebot4-discovery

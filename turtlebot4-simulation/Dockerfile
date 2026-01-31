@@ -9,7 +9,7 @@ RUN apt update && \
     ros-jazzy-turtlebot4-node \
     ros-jazzy-turtlebot4-simulator \
     ros-jazzy-irobot-create-nodes \
-    ros-jazzy-rmw-cyclonedds-cpp \
+    ros-jazzy-rmw-fastrtps-cpp \
     ros-dev-tools \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
@@ -41,8 +41,9 @@ RUN apt-get update && \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV ROS_DOMAIN_ID=0
+ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
 
 # Copy entrypoint script
 COPY ros_entrypoint.sh ros_entrypoint.sh
