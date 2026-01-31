@@ -7,7 +7,8 @@ RUN apt update && \
     ros-jazzy-turtlebot4-msgs \
     ros-jazzy-turtlebot4-navigation \
     ros-jazzy-turtlebot4-node \
-    ros-jazzy-turtlebot4-desktop
+    ros-jazzy-turtlebot4-desktop \
+    ros-jazzy-rmw-cyclonedds-cpp
 
 # Install x11 apps dependencies
 

@@ -18,6 +18,7 @@ services:
   turtlebot4-control:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-control:jazzy
     command: ros2 launch turtlebot4_viz view_navigation.launch.py
+    # command: ros2 launch turtlebot4_navigation nav2.launch.py
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related

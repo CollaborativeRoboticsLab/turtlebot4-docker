@@ -9,6 +9,7 @@ RUN apt update && \
     ros-jazzy-turtlebot4-node \
     ros-jazzy-turtlebot4-simulator \
     ros-jazzy-irobot-create-nodes \
+    ros-jazzy-rmw-cyclonedds-cpp \
     ros-dev-tools
 
 # Install Gazebo packages
