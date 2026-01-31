@@ -9,15 +9,24 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     restart: unless-stopped
     privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     network_mode: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+      - ./turtlebot4-simulation/gazebo_data:/root/.gazebo:rw       # Persist Gazebo downloads/models
 
   turtlebot4-control:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-control:jazzy
-    command: ros2 launch turtlebot4_viz view_navigation.launch.py
+    command: ros2 launch turtlebot4_viz view_navigation.launch.py slam:=true nav2:=true rviz:=true
     # command: ros2 launch turtlebot4_navigation nav2.launch.py
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
@@ -26,8 +35,17 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+       - LIBGL_ALWAYS_SOFTWARE=0           # Use GPU rendering if available
     restart: unless-stopped
     privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     network_mode: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
