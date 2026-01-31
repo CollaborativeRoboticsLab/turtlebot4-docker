@@ -1,4 +1,4 @@
-name: Turtlebot4 Control Jazzy Build
+name: Turtlebot4 Discovery Jazzy Build
 
 on:
   workflow_dispatch:
