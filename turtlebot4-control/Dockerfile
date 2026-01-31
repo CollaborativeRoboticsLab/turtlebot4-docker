@@ -32,7 +32,7 @@ ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ENV ROS_DOMAIN_ID=0
 
 # Copy entrypoint script
-COPY turtlebot4-control/ros_entrypoint.sh ros_entrypoint.sh
+COPY ros_entrypoint.sh ros_entrypoint.sh
 
 RUN chmod +x /ros_entrypoint.sh
 
