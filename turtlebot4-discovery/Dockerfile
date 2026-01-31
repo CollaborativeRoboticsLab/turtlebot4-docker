@@ -26,4 +26,4 @@ RUN chmod +x /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 # Start Fast DDS discovery server (env-expanded shell form)
-CMD fastdds discovery --server-id ${SERVER_ID} --udp-address ${SERVER_IP} --port ${SERVER_PORT}
+CMD fastdds discovery --server-id ${SERVER_ID} --udp-address ${SERVER_IP} --udp-port ${SERVER_PORT}
