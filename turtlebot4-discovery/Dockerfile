@@ -23,6 +23,7 @@ COPY ros_entrypoint.sh ros_entrypoint.sh
 
 # Ensure entrypoint is executable and used
 RUN chmod +x /ros_entrypoint.sh
+
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 # Start Fast DDS discovery server (env-expanded shell form)

@@ -5,7 +5,7 @@ services:
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - SERVER_ID=0
-      - SERVER_IP=127.0.0.1
+      - SERVER_IP=0.0.0.0
       - SERVER_PORT=11811
     network_mode: host
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+      - ROS_DISCOVERY_SERVER=0.0.0.0:11811
     restart: unless-stopped
     privileged: true
     deploy:
@@ -34,7 +34,7 @@ services:
     network_mode: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-      - ./turtlebot4-simulation/gazebo_data:/root/.gazebo:rw       # Persist Gazebo downloads/models
+      - ./turtlebot4-simulation/gazebo_data:/root/.gz:rw       # Persist Gazebo downloads/models
     depends_on:
       - turtlebot4-discovery
 
@@ -50,7 +50,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+      - ROS_DISCOVERY_SERVER=0.0.0.0:11811
     restart: unless-stopped
     privileged: true
     deploy:
