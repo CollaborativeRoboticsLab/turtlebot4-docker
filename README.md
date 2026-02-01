@@ -76,6 +76,11 @@ Parameter descriptions:
 - `RMW_IMPLEMENTATION`: Keep `rmw_fastrtps_cpp` to use Fast DDS with discovery server.
 - `ROS_DISCOVERY_SERVER`: Address of the discovery server the client connects to. Use `127.0.0.1:11811` when all services use `network_mode: host` on the same machine. If the server runs on another host, set `<server-host-ip>:11811`.
 
+#### Data Persistance
+
+- `turtlebot4-simulation/gazebo_data` will hold the downloaded gazebo assets
+- `turtlebot4-simulation/rviz` will hold the maps and other files created by rviz. use `/rviz` as a prefix for file name or save to `/rviz` folder via wizard.
+
 Notes:
 - With `network_mode: host`, containers share the host network namespace, so `127.0.0.1` refers to the host where the server binds. Additionally `ipc: host` is required for the host to differentiate containers.
 - If you change the server port, update this value accordingly (e.g., `127.0.0.1:<new_port>`).
