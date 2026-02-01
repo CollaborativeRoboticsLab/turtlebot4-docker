@@ -35,8 +35,9 @@ services:
     network_mode: host
     ipc: host
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-      - ./turtlebot4-simulation/gazebo_data:/root/.gz:rw       # Persist Gazebo downloads/models
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw                    # GUI related
+      - ./turtlebot4-simulation/gazebo_data:/root/.gz:rw    # Persist Gazebo downloads/models
+      - ./turtlebot4-simulation/rviz:/rviz:rw               # Persist RViz settings
     depends_on:
       - turtlebot4-discovery
 
@@ -66,6 +67,5 @@ services:
     ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-      - ./turtlebot4-rviz/rviz:/home/ubuntu/rviz:rw       # Persist RViz settings
     depends_on:
       - turtlebot4-discovery

@@ -41,6 +41,4 @@ COPY ros_entrypoint.sh ros_entrypoint.sh
 
 RUN chmod +x /ros_entrypoint.sh
 
-WORKDIR /home/ubuntu
-
 ENTRYPOINT [ "/ros_entrypoint.sh" ]
