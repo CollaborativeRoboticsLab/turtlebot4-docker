@@ -8,11 +8,12 @@ services:
       - SERVER_IP=0.0.0.0
       - SERVER_PORT=11811
     network_mode: host
+    ipc: host
     restart: unless-stopped
 
   turtlebot4-simulation:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
-    command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py
+    command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py slam:=true nav2:=true
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -21,7 +22,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=0.0.0.0:11811
+      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
     restart: unless-stopped
     privileged: true
     deploy:
@@ -32,15 +33,16 @@ services:
               count: 1
               capabilities: [gpu]
     network_mode: host
+    ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
       - ./turtlebot4-simulation/gazebo_data:/root/.gz:rw       # Persist Gazebo downloads/models
     depends_on:
       - turtlebot4-discovery
 
-  turtlebot4-control:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-control:jazzy
-    command: ros2 launch turtlebot4_viz view_navigation.launch.py slam:=true nav2:=true rviz:=true
+  turtlebot4-rviz:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:jazzy
+    command: ros2 launch turtlebot4_viz view_navigation.launch.py use_sim_time:=true
     # command: ros2 launch turtlebot4_navigation nav2.launch.py
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
@@ -50,7 +52,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=0.0.0.0:11811
+      - ROS_DISCOVERY_SERVER=127.0.0.1:11811
     restart: unless-stopped
     privileged: true
     deploy:
@@ -61,7 +63,9 @@ services:
               count: 1
               capabilities: [gpu]
     network_mode: host
+    ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+      - ./turtlebot4-rviz/rviz:/home/ubuntu/rviz:rw       # Persist RViz settings
     depends_on:
       - turtlebot4-discovery

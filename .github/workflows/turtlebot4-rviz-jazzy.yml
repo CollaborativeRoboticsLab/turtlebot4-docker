@@ -1,4 +1,4 @@
-name: Turtlebot4 Control Jazzy Build
+name: Turtlebot4 Rviz Jazzy Build
 
 on:
   workflow_dispatch:
@@ -7,21 +7,21 @@ on:
     branches: 
       - main
     paths:
-      - turtlebot4-control/**
-      - .github/workflows/turtlebot4-control-jazzy.yml
+      - turtlebot4-rviz/**
+      - .github/workflows/turtlebot4-rviz-jazzy.yml
 
   pull_request:
     branches: 
       - main
     paths:
-      - turtlebot4-control/**
-      - .github/workflows/turtlebot4-control-jazzy.yml
+      - turtlebot4-rviz/**
+      - .github/workflows/turtlebot4-rviz-jazzy.yml
 
 
 env:
   REGISTRY: ghcr.io
   OWNER: collaborativeroboticslab
-  IMAGE_NAME: turtlebot4-control
+  IMAGE_NAME: turtlebot4-rviz
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -60,8 +60,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
-          context: ./turtlebot4-control
-          file: turtlebot4-control/Dockerfile
+          context: ./turtlebot4-rviz
+          file: turtlebot4-rviz/Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
