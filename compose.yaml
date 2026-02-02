@@ -13,7 +13,7 @@ services:
 
   turtlebot4-simulation:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
-    command: . /turtle_ws/install/setup.bash && ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py nav2:=true localization:=true slam:=false use_sim_time:=true
+    command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "nav2:=true", "localization:=true", "slam:=false", "use_sim_time:=true"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -43,7 +43,7 @@ services:
 
   turtlebot4-rviz:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:jazzy
-    command: ros2 launch turtlebot4_viz view_navigation.launch.py use_sim_time:=true
+    command: ["ros2", "launch", "turtlebot4_viz", "view_navigation.launch.py", "use_sim_time:=true"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
