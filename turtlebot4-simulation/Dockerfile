@@ -1,13 +1,10 @@
-FROM ros:jazzy
+FROM ros:jazzy AS base
 
 # Install dependencies
 
 RUN apt update && \
-    apt install -y --no-install-recommends ros-jazzy-turtlebot4-description \
-    ros-jazzy-turtlebot4-msgs \
-    ros-jazzy-turtlebot4-navigation \
-    ros-jazzy-turtlebot4-node \
-    ros-jazzy-irobot-create-nodes \
+    apt install -y --no-install-recommends \
+    git \
     ros-jazzy-rmw-fastrtps-cpp \
     ros-dev-tools \
     ros-jazzy-navigation2 \
@@ -39,23 +36,52 @@ RUN apt-get update && \
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /turtle_ws/src
+## Set up workspace
+ENV WORKSPACE_ROOT=/turtle_ws
+
+# Create and clone workspace
+WORKDIR ${WORKSPACE_ROOT}/src
 
 # Clone turtlebot4 simulation packages (with modified render engine)
-RUN git clone -b jazzy https://github.com/CollaborativeRoboticsLab/turtlebot4_simulator.git
+RUN git clone -b jazzy https://github.com/CollaborativeRoboticsLab/turtlebot4.git
 
-WORKDIR /turtle_ws
+WORKDIR ${WORKSPACE_ROOT}
 
+## Install dependencies using rosdep
+RUN rosdep update && \
+    rosdep install --from-paths src --ignore-src -r -y
+
+## Build the workspace
 RUN . /opt/ros/jazzy/setup.sh && \
     colcon build --symlink-install
 
+WORKDIR /
+
+# Clean up workspace to reduce image size
+RUN rm -rf ${WORKSPACE_ROOT}/src
+RUN rm -rf ${WORKSPACE_ROOT}/log
+RUN rm -rf ${WORKSPACE_ROOT}/build
+
+# Clean up apt cache to reduce image size
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /tmp/*
+RUN apt-get clean
+
+FROM ros:jazzy AS Final
+
 # Set environment variables
+ENV WORKSPACE_ROOT=/turtle_ws
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV ROS_DOMAIN_ID=0
 ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
 
+WORKDIR /
+
+# Copy files from build stage
+COPY --from=base / /
+
 # Copy entrypoint script
-COPY ros_entrypoint.sh ros_entrypoint.sh
+COPY turtlebot4-simulation/ros_entrypoint.sh ros_entrypoint.sh
 
 RUN chmod +x /ros_entrypoint.sh
 

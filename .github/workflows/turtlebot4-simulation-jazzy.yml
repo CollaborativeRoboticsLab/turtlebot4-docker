@@ -60,7 +60,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
-          context: ./turtlebot4-simulation
+          context: .
           file: turtlebot4-simulation/Dockerfile
           platforms: linux/amd64
           push: true
