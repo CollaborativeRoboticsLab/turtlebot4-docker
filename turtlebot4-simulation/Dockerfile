@@ -45,6 +45,7 @@ WORKDIR ${WORKSPACE_ROOT}/src
 
 # Clone turtlebot4 simulation packages (with modified render engine)
 RUN git clone -b jazzy https://github.com/CollaborativeRoboticsLab/turtlebot4.git
+RUN git clone -b jazzy https://github.com/turtlebot/turtlebot4_simulator.git
 
 WORKDIR ${WORKSPACE_ROOT}
 
