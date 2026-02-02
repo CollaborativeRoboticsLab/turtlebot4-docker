@@ -7,7 +7,6 @@ RUN apt update && \
     ros-jazzy-turtlebot4-msgs \
     ros-jazzy-turtlebot4-navigation \
     ros-jazzy-turtlebot4-node \
-    ros-jazzy-turtlebot4-simulator \
     ros-jazzy-irobot-create-nodes \
     ros-jazzy-rmw-fastrtps-cpp \
     ros-dev-tools \
@@ -26,19 +25,29 @@ RUN apt install -y curl && \
 # Install x11 apps dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libx11-6 \
-                                               libxext6 \
-                                               libxrender1 \
-                                               libxtst6 \
-                                               libxi6 \
-                                               libgtk-3-0 \
-                                               x11-xserver-utils \
-                                               ffmpeg \
-                                               libsm6 \
-                                               unzip \
-                                               findutils
+    libxext6 \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libgtk-3-0 \
+    x11-xserver-utils \
+    ffmpeg \
+    libsm6 \
+    unzip \
+    findutils
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /turtle_ws/src
+
+# Clone turtlebot4 simulation packages (with modified render engine)
+RUN git clone -b jazzy https://github.com/CollaborativeRoboticsLab/turtlebot4_simulator.git
+
+WORKDIR /turtle_ws
+
+RUN . /opt/ros/jazzy/setup.sh && \
+    colcon build --symlink-install
 
 # Set environment variables
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp

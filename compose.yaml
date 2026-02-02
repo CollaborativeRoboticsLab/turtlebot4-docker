@@ -13,7 +13,7 @@ services:
 
   turtlebot4-simulation:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
-    command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py nav2:=true localization:=true slam:=false
+    command: ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py nav2:=true localization:=true slam:=false use_sim_time:=true
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -37,7 +37,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw                    # GUI related
       - ./turtlebot4-simulation/gazebo_data:/root/.gz:rw    # Persist Gazebo downloads/models
-      - ./turtlebot4-simulation/rviz:/rviz:rw               # Persist RViz settings
+      - ./turtlebot4-simulation/rviz:/turtle_ws/rviz:rw               # Persist RViz settings
     depends_on:
       - turtlebot4-discovery
 
