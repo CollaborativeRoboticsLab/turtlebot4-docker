@@ -1,4 +1,4 @@
-# Algorithmic Robots Simulation World
+# Turtlebot4 Docker
 
 ## Install Docker
 
@@ -9,7 +9,7 @@ Follow the official instructions [here](https://docs.docker.com/engine/install/)
 On the terminal run the following command to clone the repo
 
 ```sh
-git clone https://github.com/CollaborativeRoboticsLab/algorithmic-robots-world.git
+git clone https://github.com/CollaborativeRoboticsLab/turtlebot4-docker.git
 ```
 
 ## Start the workspace
@@ -17,7 +17,7 @@ git clone https://github.com/CollaborativeRoboticsLab/algorithmic-robots-world.g
 Enter the folder
 
 ```bash
-cd algorithmic-robots-world
+cd turtlebot4-docker
 ```
 
 Pull the latest docker containers
@@ -71,12 +71,13 @@ Works as a client of turtlebot4-discovery, and thus update the following variabl
 - ROS_DISCOVERY_SERVER=127.0.0.1:11811
 ```
 
-Parameter descriptions:
+**Parameter descriptions**
+
 - `ROS_DOMAIN_ID`: Must match the discovery server and all other clients.
 - `RMW_IMPLEMENTATION`: Keep `rmw_fastrtps_cpp` to use Fast DDS with discovery server.
 - `ROS_DISCOVERY_SERVER`: Address of the discovery server the client connects to. Use `127.0.0.1:11811` when all services use `network_mode: host` on the same machine. If the server runs on another host, set `<server-host-ip>:11811`.
 
-#### Data Persistance
+**Data Persistance**
 
 - `turtlebot4-simulation/gazebo_data` will hold the downloaded gazebo assets
 - `turtlebot4-simulation/rviz` will hold the maps and other files created by rviz. use `/rviz` as a prefix for file name or save to `/rviz` folder via wizard.
@@ -85,7 +86,7 @@ Notes:
 - With `network_mode: host`, containers share the host network namespace, so `127.0.0.1` refers to the host where the server binds. Additionally `ipc: host` is required for the host to differentiate containers.
 - If you change the server port, update this value accordingly (e.g., `127.0.0.1:<new_port>`).
 
-### `Turtlebot4-control (RViz)` container
+### `Turtlebot4-rviz` container
 
 This container shows a typical client (RViz + Nav2) connecting to Turtlebot4 simulation (or a physical robot).
 
@@ -97,7 +98,7 @@ Works as a client of turtlebot4-discovery, and thus update the following variabl
 - ROS_DISCOVERY_SERVER=127.0.0.1:11811
 ```
 
-Parameter descriptions:
+**Parameter descriptions**
 - `ROS_DOMAIN_ID`: Same domain as simulation and discovery.
 - `RMW_IMPLEMENTATION`: Keep Fast DDS for discovery server support.
 - `ROS_DISCOVERY_SERVER`: Discovery server endpoint as above.
@@ -108,7 +109,3 @@ Parameter descriptions:
 - **Firewall/port issues:** Confirm the server listens on `11811` and the port is open.
 - **GUI not showing:** Run `xhost +local:root` before `docker compose up`; verify `/tmp/.X11-unix` is mounted and `DISPLAY` is set.
 - **Verify ROS graph:** Inside `turtlebot4-simulation`, run `ros2 topic list`, check `/map`, `/tf`, and Nav2 nodes (`planner_server`, `controller_server`). Ensure transforms between `map`, `odom`, and `base_link` are present.
-
-## Tips
-- Keep `ROS_DOMAIN_ID` and `RMW_IMPLEMENTATION` consistent across all services.
-- If you prefer flexible configuration, create a `.env` file with `HOST_IP=127.0.0.1` and set `ROS_DISCOVERY_SERVER=${HOST_IP}:11811` in compose.
