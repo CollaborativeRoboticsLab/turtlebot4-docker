@@ -5,7 +5,7 @@ FROM ros:jazzy AS base
 RUN apt update && \
     apt install -y --no-install-recommends \
     git \
-    ros-jazzy-irobot-create-nodes \
+    ros-jazzy-irobot-create-* \
     ros-jazzy-rmw-fastrtps-cpp \
     ros-dev-tools \
     ros-jazzy-navigation2 \
