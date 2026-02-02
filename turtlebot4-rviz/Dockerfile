@@ -4,8 +4,14 @@ FROM ros:jazzy
 
 RUN apt update && \
     apt install -y --no-install-recommends ros-jazzy-turtlebot4-description \
+    ros-jazzy-turtlebot4-msgs \
+    ros-jazzy-turtlebot4-navigation \
+    ros-jazzy-turtlebot4-node \
     ros-jazzy-turtlebot4-desktop \
-    ros-jazzy-rmw-fastrtps-cpp 
+    ros-jazzy-rmw-fastrtps-cpp \
+    ros-jazzy-navigation2 \
+    ros-jazzy-nav2-bringup \
+    ros-jazzy-slam-toolbox
 
 # Install x11 apps dependencies
 
