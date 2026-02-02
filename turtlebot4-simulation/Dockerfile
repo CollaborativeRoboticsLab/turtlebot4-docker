@@ -48,13 +48,9 @@ RUN git clone -b jazzy https://github.com/CollaborativeRoboticsLab/turtlebot4.gi
 
 WORKDIR ${WORKSPACE_ROOT}
 
-## Install dependencies using rosdep
-RUN rosdep update && \
-    rosdep install --from-paths src --ignore-src -r -y
-
 ## Build the workspace
 RUN . /opt/ros/jazzy/setup.sh && \
-    colcon build --symlink-install
+    colcon build
 
 WORKDIR /
 
