@@ -24,7 +24,8 @@ RUN apt-get update && \
     ffmpeg \
     libsm6 \
     unzip \
-    findutils
+    findutils \
+    gnome-terminal
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
