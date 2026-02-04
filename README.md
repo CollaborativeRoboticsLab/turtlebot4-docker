@@ -116,6 +116,9 @@ Start the docker containers
 docker compose -f compose-physical.yaml up
 ```
 
+## Doing custom work
+
+Copy your packages or create your pacakges within `/turtlebot4-workspace/turtle_ws/src` this folder is mounted into the workspace container and packages can be compiled and executed within the container.
 
 ## Information
 

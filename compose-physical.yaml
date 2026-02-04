@@ -26,3 +26,33 @@ services:
     ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+
+  turtlebot4-workspace:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
+    command: ["/bin/bash", "-i"]
+    environment:
+      - PYTHONUNBUFFERED=1                # GUI related
+      - DISPLAY                           # GUI related
+      - QT_X11_NO_MITSHM=1                # GUI related
+      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
+      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
+      - ROS_DOMAIN_ID=10
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DISCOVERY_SERVER=10.42.0.1:11811
+      - ROS_SUPER_CLIENT=1
+    restart: unless-stopped
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    network_mode: host
+    ipc: host
+    tty: true
+    stdin_open: true
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+      - ./turtlebot4-workspace/turtle_ws/src:/turtle_ws/src:rw
