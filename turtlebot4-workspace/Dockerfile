@@ -25,7 +25,12 @@ RUN apt-get update && \
     libsm6 \
     unzip \
     findutils \
-    gnome-terminal
+    gnome-terminal \
+    dbus-x11 \
+    gsettings-desktop-schemas \
+    dconf-service \
+    libglib2.0-bin \
+    xterm
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -35,6 +40,8 @@ ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV ROS_DOMAIN_ID=0
 ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
 ENV TERM=xterm-256color
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 # Copy entrypoint script
 COPY ros_entrypoint.sh /ros_entrypoint.sh
