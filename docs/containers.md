@@ -64,3 +64,20 @@ Works as a client of turtlebot4-discovery, and thus update the following variabl
 - `ROS_DOMAIN_ID`: Same domain as simulation and discovery.
 - `RMW_IMPLEMENTATION`: Keep Fast DDS for discovery server support.
 - `ROS_DISCOVERY_SERVER`: Discovery server endpoint as above.
+
+## `Turtlebot4-workspace` container
+
+This container provide a workspace environment that connects to Turtlebot4 simulation (or a physical robot).
+
+Works out-of-box as a client of turtlebot4-discovery, and thus update the following variables if turtlebot4-discovery settings change.
+
+```yaml
+- ROS_DOMAIN_ID=0
+- RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+- ROS_DISCOVERY_SERVER=127.0.0.1:11811
+```
+
+**Parameter descriptions**
+- `ROS_DOMAIN_ID`: Same domain as simulation and discovery.
+- `RMW_IMPLEMENTATION`: Keep Fast DDS for discovery server support.
+- `ROS_DISCOVERY_SERVER`: Discovery server endpoint as above.
