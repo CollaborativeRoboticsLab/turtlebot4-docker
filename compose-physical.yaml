@@ -29,7 +29,7 @@ services:
 
   turtlebot4-workspace:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
-    command: ["/bin/bash", "-i"]
+    command: ["gnome-terminal", "--wait", "--", "bash", "-i"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
