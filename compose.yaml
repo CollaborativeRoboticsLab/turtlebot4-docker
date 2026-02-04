@@ -96,6 +96,6 @@ services:
     ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-      - ./turtlebot4-workspace/turtle_ws:/turtle_ws:rw
+      - ./turtlebot4-workspace/turtle_ws/src:/turtle_ws/src:rw
     depends_on:
       - turtlebot4-discovery
