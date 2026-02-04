@@ -30,6 +30,10 @@ RUN apt-get update && \
     gsettings-desktop-schemas \
     dconf-service \
     libglib2.0-bin \
+    libcanberra-gtk3-module \
+    libcanberra-gtk-module \
+    at-spi2-core \
+    libatk-bridge2.0-0 \
     xterm
 
 # Clean up
@@ -40,14 +44,17 @@ ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV ROS_DOMAIN_ID=0
 ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
 ENV TERM=xterm-256color
+ENV NO_AT_BRIDGE=1
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
 # Copy entrypoint script
 COPY ros_entrypoint.sh /ros_entrypoint.sh
-
-# Ensure entrypoint is executable and used
 RUN chmod +x /ros_entrypoint.sh
+
+# Terminal launcher script
+COPY launch-terminal.sh /usr/local/bin/launch-terminal.sh
+RUN chmod +x /usr/local/bin/launch-terminal.sh
 
 # Ensure the entrypoint script is used
 ENTRYPOINT ["/ros_entrypoint.sh"]

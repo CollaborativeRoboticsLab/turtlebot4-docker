@@ -29,7 +29,7 @@ services:
 
   turtlebot4-workspace:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
-    command: ["dbus-launch", "gnome-terminal", "--wait", "--", "bash", "-i"]
+    command: ["/usr/local/bin/launch-terminal.sh"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -40,6 +40,7 @@ services:
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=10.42.0.1:11811
       - ROS_SUPER_CLIENT=1
+      - NO_AT_BRIDGE=1
     restart: unless-stopped
     privileged: true
     deploy:
