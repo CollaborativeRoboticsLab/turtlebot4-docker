@@ -4,15 +4,30 @@ This repo provides multiple containers to work with Turtlebot4 Robots in [Discov
 
 This pacakge provides and utilizes following containers
 
-- **Turtlebot4-Discovery**  Provides the discovery service for the simulation
-- **Turtlebot4-Simulation** Provides the Gazebo based simulation environment
-- **Turtlebot4-Rviz** Provides rviz tools to interact with both simulation and physical robots
-- **Turtlebot4-workspace** Provides a workspace that can be used to test code on both simulation and physical robots
+- **Turtlebot4-Discovery**          
+    Provides the discovery service for the simulation
+
+- **Turtlebot4-Simulation**         
+    Provides the Gazebo based simulation environment
+
+- **Turtlebot4-Rviz** 
+    Provides rviz tools to interact with both simulation and physical robots
+
+- **Turtlebot4-workspace** 
+    Provides a workspace that can be used to test code on both simulation and physical robots
 
 This packages contains two compose files that handles environmental variable configurations for Discovery Server on behalf of the user, so the user can focus on development without configuration worries
 
 - `compose.yaml` for simulated robot
-- `compose.physical` for physical robot (this file assumes that nav2 and Slamtoolbox is running natively on the robot)
+- `compose.physical` for physical robot (assumes that nav2 and Slamtoolbox is running natively on the robot)
+
+### Information
+
+Read more information on following documents
+
+- [Container Information](./docs/containers.md)
+- [Troubleshooting](./docs/troubleshooting.md)
+
 
 ## Install Docker
 
@@ -133,11 +148,3 @@ docker compose -f compose-physical.yaml up
 ## Doing custom work
 
 Copy your packages or create your pacakges within `/turtlebot4-workspace/turtle_ws/src` this folder is mounted into the workspace container and packages can be compiled and executed within the container.
-
-## Information
-
-Read more information on following documents
-
-- [Container Information](./docs/containers.md)
-- [Troubleshooting](./docs/troubleshooting.md)
-
