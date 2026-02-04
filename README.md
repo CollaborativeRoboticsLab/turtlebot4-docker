@@ -10,16 +10,16 @@ This pacakge provides and utilizes following containers
 - **Turtlebot4-Simulation**         
     Provides the Gazebo based simulation environment
 
-- **Turtlebot4-Rviz** 
+- **Turtlebot4-Rviz**   
     Provides rviz tools to interact with both simulation and physical robots
 
-- **Turtlebot4-workspace** 
+- **Turtlebot4-workspace**  
     Provides a workspace that can be used to test code on both simulation and physical robots
 
 This packages contains two compose files that handles environmental variable configurations for Discovery Server on behalf of the user, so the user can focus on development without configuration worries
 
 - `compose.yaml` for simulated robot
-- `compose.physical` for physical robot (assumes that nav2 and Slamtoolbox is running natively on the robot)
+- `compose.physical` for physical robot (assumes Nav2 & Slamtoolbox is running natively on the robot)
 
 ### Information
 
