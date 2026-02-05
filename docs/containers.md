@@ -67,7 +67,7 @@ Works as a client of turtlebot4-discovery, and thus update the following variabl
 
 ## `Turtlebot4-workspace` container
 
-This container provide a workspace environment that connects to Turtlebot4 simulation (or a physical robot).
+This container provides a browser-based VS Code (code-server) environment that connects to Turtlebot4 simulation (or a physical robot).
 
 Works out-of-box as a client of turtlebot4-discovery, and thus update the following variables if turtlebot4-discovery settings change.
 
@@ -75,9 +75,24 @@ Works out-of-box as a client of turtlebot4-discovery, and thus update the follow
 - ROS_DOMAIN_ID=0
 - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+ - PASSWORD=student
 ```
 
 **Parameter descriptions**
 - `ROS_DOMAIN_ID`: Same domain as simulation and discovery.
 - `RMW_IMPLEMENTATION`: Keep Fast DDS for discovery server support.
 - `ROS_DISCOVERY_SERVER`: Discovery server endpoint as above.
+ - `PASSWORD`: code-server login password (default `student`). Set in compose.
+
+**Access & Folders**
+- URL: `http://127.0.0.1:8080` (served by the workspace container)
+- Workspace root: `/workspace` (mounted from `./turtlebot4-workspace/workspace`)
+- Persistent settings/extensions:
+	- `./turtlebot4-workspace/code-server/config` → `/root/.config/code-server`
+	- `./turtlebot4-workspace/code-server/data` → `/root/.local/share/code-server`
+
+**ROS Development inside workspace**
+- The entrypoint sources ROS automatically for the integrated terminal.
+- Create a ROS 2 overlay inside `/workspace` if desired:
+	- `mkdir -p /workspace/turtle_ws/src && cd /workspace && colcon build --merge-install`
+	- `source /workspace/install/setup.bash`

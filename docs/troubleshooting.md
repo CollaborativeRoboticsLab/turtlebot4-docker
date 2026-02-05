@@ -23,3 +23,7 @@ Ensure `ROS_DISCOVERY_SERVER` uses a concrete address (not `0.0.0.0`).
 - Inside `turtlebot4-simulation`, run `ros2 topic list`, check `/map`, `/tf`, and Nav2 nodes (`planner_server`, `controller_server`). 
 - Ensure transforms between `map`, `odom`, and `base_link` are present.
 - Check the robot namespace
+
+## ROS2 topic list doesnot print the list
+
+- try running the `ros2 daemon stop && ros2 daemon start` command once and wait few seconds

@@ -54,11 +54,17 @@ Pull the latest docker containers
 docker compose pull
 ```
 
-Allow permission for UI interfaces from docker containers
-```bash
-# Allow local-root X11 access for GUI apps in containers
-xhost +local:root
-```
+### Workspace via code-server
+
+When the stack is up, the workspace container serves a web VS Code at http://127.0.0.1:8080.
+
+- Default password: `student` (set via `PASSWORD` in compose)
+- Workspace folder: `/workspace` (mounted from `./turtlebot4-workspace/workspace`)
+- Settings/extensions persist to:
+    - `./turtlebot4-workspace/code-server/config` → `/root/.config/code-server`
+    - `./turtlebot4-workspace/code-server/data` → `/root/.local/share/code-server`
+
+To change the password, edit the `PASSWORD` env in [compose.yaml](compose.yaml) under the `turtlebot4-workspace` service.
 
 <br>
 
@@ -76,6 +82,12 @@ command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", 
 Start the docker containers
 ```bash
 docker compose up
+```
+
+For GUI containers (simulation, rviz), allow X11 access on the host if needed:
+```bash
+# Allow local-root X11 access for GUI apps in containers
+xhost +local:root
 ```
 
 ## Using the Physical robot and remote pc
@@ -147,4 +159,17 @@ docker compose -f compose-physical.yaml up
 
 ## Doing custom work
 
-Copy your packages or create your pacakges within `/turtlebot4-workspace/turtle_ws/src` this folder is mounted into the workspace container and packages can be compiled and executed within the container.
+Use code-server to edit files under `/workspace` (mounted from `./turtlebot4-workspace/workspace`). We recommend creating a ROS 2 colcon workspace inside `/workspace`:
+
+```bash
+# In the code-server terminal (already sourced via ros entrypoint)
+mkdir -p /workspace/turtle_ws/src
+cd /workspace
+colcon build --merge-install
+
+# Use the overlay
+source /workspace/install/setup.bash
+ros2 pkg list
+```
+
+Place your packages in `/workspace/turtle_ws/src`, build with `colcon`, and run as usual. The code-server terminal is ROS-ready (environment is sourced by the container entrypoint).
