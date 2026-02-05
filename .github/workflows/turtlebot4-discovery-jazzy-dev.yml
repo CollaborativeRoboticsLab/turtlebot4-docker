@@ -1,4 +1,4 @@
-name: Turtlebot4 Discovery Jazzy Build
+name: Turtlebot4 Discovery Jazzy Dev Build
 
 on:
   workflow_dispatch:

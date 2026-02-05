@@ -1,4 +1,4 @@
-name: Turtlebot4 Workspace Jazzy Build
+name: Turtlebot4 Workspace Jazzy Dev Build
 
 on:
   workflow_dispatch:

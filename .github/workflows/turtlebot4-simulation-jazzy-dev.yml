@@ -1,4 +1,4 @@
-name: Turtlebot4 GZ Simulation Jazzy Build
+name: Turtlebot4 GZ Simulation Jazzy Dev Build
 
 on:
   workflow_dispatch:
