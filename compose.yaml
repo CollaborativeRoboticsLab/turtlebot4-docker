@@ -84,5 +84,7 @@ services:
     ipc: host
     volumes:
       - ./turtlebot4-workspace/workspace:/workspace:rw
+      - ./turtlebot4-workspace/code-server/config:/root/.config/code-server:rw
+      - ./turtlebot4-workspace/code-server/data:/root/.local/share/code-server:rw
     depends_on:
       - turtlebot4-discovery

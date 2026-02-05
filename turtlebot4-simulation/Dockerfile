@@ -10,14 +10,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Core ROS dependencies and build tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      git \
-      ros-dev-tools \
-      ros-jazzy-irobot-create-* \
-      ros-jazzy-rmw-fastrtps-cpp \
-      ros-jazzy-navigation2 \
-      ros-jazzy-nav2-bringup \
-      ros-jazzy-slam-toolbox \
-      curl && \
+    git \
+    ros-dev-tools \
+    ros-jazzy-irobot-create-* \
+    ros-jazzy-irobot-create-gz-bringup \
+    ros-jazzy-rmw-fastrtps-cpp \
+    ros-jazzy-navigation2 \
+    ros-jazzy-nav2-bringup \
+    ros-jazzy-slam-toolbox \
+    curl && \
     curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list && \
     apt-get update && \
