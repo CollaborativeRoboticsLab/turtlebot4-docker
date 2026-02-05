@@ -1,43 +1,18 @@
 FROM ros:jazzy
 
-# Install dependencies
-
+## Install ROS dependencies and minimal terminal (xterm only)
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ros-jazzy-turtlebot4-description \
+    apt-get install -y --no-install-recommends \
+    ros-jazzy-turtlebot4-description \
     ros-jazzy-turtlebot4-msgs \
     ros-jazzy-turtlebot4-navigation \
     ros-jazzy-turtlebot4-node \
     ros-jazzy-rmw-fastrtps-cpp \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
-    ros-jazzy-slam-toolbox
-
-# Install x11 apps dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libx11-6 \
-    libxext6 \
-    libxrender1 \
-    libxtst6 \
-    libxi6 \
-    libgtk-3-0 \
-    x11-xserver-utils \
-    ffmpeg \
-    libsm6 \
-    unzip \
-    findutils \
-    gnome-terminal \
-    dbus-x11 \
-    gsettings-desktop-schemas \
-    dconf-service \
-    libglib2.0-bin \
-    libcanberra-gtk3-module \
-    libcanberra-gtk-module \
-    at-spi2-core \
-    libatk-bridge2.0-0 \
-    xterm
-
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    ros-jazzy-slam-toolbox \
+    xterm && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -45,6 +20,7 @@ ENV ROS_DOMAIN_ID=0
 ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
 ENV TERM=xterm-256color
 ENV NO_AT_BRIDGE=1
+ENV QT_X11_NO_MITSHM=1
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
@@ -58,3 +34,4 @@ RUN chmod +x /usr/local/bin/launch-terminal.sh
 
 # Ensure the entrypoint script is used
 ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["/usr/local/bin/launch-terminal.sh"]
