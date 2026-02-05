@@ -13,7 +13,6 @@ RUN apt-get update && \
     git \
     ros-dev-tools \
     ros-jazzy-irobot-create-* \
-    ros-jazzy-irobot-create-gz-bringup \
     ros-jazzy-rmw-fastrtps-cpp \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
@@ -39,10 +38,6 @@ WORKDIR ${WORKSPACE_ROOT}
 RUN . /opt/ros/jazzy/setup.sh && colcon build
 
 RUN rm -rf build/ src/ log/
-
-# Remove build-time tools to slim the image (keep runtime deps intact)
-RUN apt-get purge -y --auto-remove git ros-dev-tools curl && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/* /tmp/* /var/tmp/*
 
 WORKDIR /
 
