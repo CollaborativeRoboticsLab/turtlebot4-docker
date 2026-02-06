@@ -1,6 +1,6 @@
 services:
   turtlebot4-discovery:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-discovery:jazzy
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-discovery:dev
     environment:
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -12,8 +12,8 @@ services:
     restart: unless-stopped
 
   turtlebot4-simulation:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
-    command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "nav2:=true", "localization:=true", "slam:=false", "use_sim_time:=true"]
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:dev
+    command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "use_sim_time:=true"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -23,6 +23,7 @@ services:
       - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     deploy:
@@ -42,7 +43,7 @@ services:
       - turtlebot4-discovery
 
   turtlebot4-rviz:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:jazzy
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:dev
     command: ["ros2", "launch", "turtlebot4_viz", "view_navigation.launch.py", "use_sim_time:=true"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
@@ -50,9 +51,10 @@ services:
       - QT_X11_NO_MITSHM=1                # GUI related
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
-      - ROS_DOMAIN_ID=10
+      - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     deploy:
@@ -70,33 +72,22 @@ services:
       - turtlebot4-discovery
 
   turtlebot4-workspace:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
-    command: ["/usr/local/bin/launch-terminal.sh"]
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:dev
     environment:
-      - PYTHONUNBUFFERED=1                # GUI related
-      - DISPLAY                           # GUI related
-      - QT_X11_NO_MITSHM=1                # GUI related
-      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
-      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
-      - ROS_DOMAIN_ID=10
+      - PASSWORD=student                   # code-server login
+      - ROS_DOMAIN_ID=0
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=127.0.0.1:11811
+      - ROS_SUPER_CLIENT=1
       - NO_AT_BRIDGE=1
     restart: unless-stopped
-    privileged: true
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
     tty: true
     stdin_open: true
     network_mode: host
     ipc: host
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-      - ./turtlebot4-workspace/turtle_ws/src:/turtle_ws/src:rw
+      - ./turtlebot4-workspace/workspace:/workspace:rw
+      - ./turtlebot4-workspace/code-server/config:/root/.config/code-server:rw
+      - ./turtlebot4-workspace/code-server/data:/root/.local/share/code-server:rw
     depends_on:
       - turtlebot4-discovery

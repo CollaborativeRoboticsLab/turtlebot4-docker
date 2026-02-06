@@ -1,27 +1,21 @@
 FROM ros:jazzy
 
-# Install dependencies
+ENV DEBIAN_FRONTEND=noninteractive \
+    RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
+    ROS_DOMAIN_ID=0 \
+    SERVER_ID=0 \
+    SERVER_IP=127.0.0.1 \
+    SERVER_PORT=11811
 
-RUN apt update && \
-    apt install -y --no-install-recommends ros-jazzy-rmw-fastrtps-cpp
-
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Set environment variables
-ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-ENV ROS_DOMAIN_ID=0
-ENV SERVER_ID=0
-ENV SERVER_IP=127.0.0.1
-ENV SERVER_PORT=11811
+# Install only the needed RMW implementation and clean up in one layer
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ros-jazzy-rmw-fastrtps-cpp && \
+    rm -rf /var/lib/apt/lists/*
 
 # Expose Fast DDS Discovery Server UDP port (optional if server runs here)
 EXPOSE ${SERVER_PORT}/udp
 
-# Copy entrypoint script
-COPY ros_entrypoint.sh ros_entrypoint.sh
-
-# Ensure entrypoint is executable and used
+COPY ros_entrypoint.sh /ros_entrypoint.sh
 RUN chmod +x /ros_entrypoint.sh
 
 ENTRYPOINT ["/ros_entrypoint.sh"]

@@ -1,44 +1,28 @@
 FROM ros:jazzy
+FROM ros:jazzy
 
-# Install dependencies
+ENV DEBIAN_FRONTEND=noninteractive \
+    RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
+    ROS_DOMAIN_ID=0 \
+    ROS_DISCOVERY_SERVER=127.0.0.1:11811 \
+    QT_X11_NO_MITSHM=1
 
-RUN apt update && \
-    apt install -y --no-install-recommends ros-jazzy-turtlebot4-description \
-    ros-jazzy-turtlebot4-msgs \
-    ros-jazzy-turtlebot4-navigation \
-    ros-jazzy-turtlebot4-node \
-    ros-jazzy-turtlebot4-desktop \
-    ros-jazzy-rmw-fastrtps-cpp \
-    ros-jazzy-navigation2 \
-    ros-jazzy-nav2-bringup \
-    ros-jazzy-slam-toolbox
-
-# Install x11 apps dependencies
-
+# Install only required ROS packages; rely on their GUI deps
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libx11-6 \
-                                               libxext6 \
-                                               libxrender1 \
-                                               libxtst6 \
-                                               libxi6 \
-                                               libgtk-3-0 \
-                                               x11-xserver-utils \
-                                               ffmpeg \
-                                               libsm6 \
-                                               unzip \
-                                               findutils
-
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Set environment variables
-ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-ENV ROS_DOMAIN_ID=0
-ENV ROS_DISCOVERY_SERVER=127.0.0.1:11811
+    apt-get install -y --no-install-recommends \
+      ros-jazzy-turtlebot4-description \
+      ros-jazzy-turtlebot4-msgs \
+      ros-jazzy-turtlebot4-navigation \
+      ros-jazzy-turtlebot4-node \
+      ros-jazzy-turtlebot4-desktop \
+      ros-jazzy-rmw-fastrtps-cpp \
+      ros-jazzy-navigation2 \
+      ros-jazzy-nav2-bringup \
+      ros-jazzy-slam-toolbox && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy entrypoint script
-COPY ros_entrypoint.sh ros_entrypoint.sh
-
+COPY ros_entrypoint.sh /ros_entrypoint.sh
 RUN chmod +x /ros_entrypoint.sh
 
-ENTRYPOINT [ "/ros_entrypoint.sh" ]
+ENTRYPOINT ["/ros_entrypoint.sh"]
