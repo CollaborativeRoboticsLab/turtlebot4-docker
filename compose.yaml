@@ -26,13 +26,13 @@ services:
       - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     network_mode: host
     ipc: host
     volumes:
@@ -57,13 +57,13 @@ services:
       - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     network_mode: host
     ipc: host
     volumes:
