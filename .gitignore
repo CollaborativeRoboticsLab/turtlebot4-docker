@@ -2,3 +2,4 @@ turtlebot4-simulation/gazebo_data
 turtlebot4-simulation/rviz
 turtlebot4-workspace/code-server
 turtlebot4-workspace/workspace
+.env

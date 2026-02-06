@@ -41,4 +41,4 @@ RUN chmod +x /ros_entrypoint.sh
 
 # Ensure the entrypoint script is used
 ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["/usr/bin/code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password", "--disable-telemetry", "/workspace"]
+CMD ["/usr/bin/code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "--disable-telemetry", "/workspace"]

@@ -1,6 +1,6 @@
 services:
   turtlebot4-rviz:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:dev
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-rviz:jazzy
     command: ["ros2", "launch", "turtlebot4_viz", "view_navigation.launch.py"]
     # command: ["ros2", "launch", "turtlebot4_viz", "view_diagnostics.launch.py"]
     environment:
@@ -9,9 +9,9 @@ services:
       - QT_X11_NO_MITSHM=1                # GUI related
       - NVIDIA_VISIBLE_DEVICES=all        # GUI related
       - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
-      - ROS_DOMAIN_ID=10
+      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=10.42.0.1:11811
+      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.42.0.1:11811}
       - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
@@ -28,12 +28,11 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
 
   turtlebot4-workspace:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:dev
+    image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
     environment:
-      - PASSWORD=student                   # code-server login
-      - ROS_DOMAIN_ID=10
+      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=10.42.0.1:11811
+      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.42.0.1:11811}
       - ROS_SUPER_CLIENT=1
       - NO_AT_BRIDGE=1
     restart: unless-stopped

@@ -54,6 +54,8 @@ Pull the latest docker containers
 docker compose pull
 ```
 
+Required environmental variable need to be in a `.env` file. An `example.env` file is available. Rename that file to `.env` and update the values as required. 
+
 ### Workspace via code-server
 
 When the stack is up, the workspace container serves a web VS Code at http://127.0.0.1:8080.
