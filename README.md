@@ -109,7 +109,7 @@ Move the robot using joystick to map the room.
 On the robot run following command to run the localization process with a created map
 
 ```bash
-ros2 launch turtlebot4_navigation localization.launch.py map:=office.yaml
+ros2 launch turtlebot4_navigation localization.launch.py map:=crlab.yaml
 ```
 
 And on another terminal run nav2
