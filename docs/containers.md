@@ -48,9 +48,9 @@ Notes:
 - With `network_mode: host`, containers share the host network namespace, so `127.0.0.1` refers to the host where the server binds. Additionally `ipc: host` is required for the host to differentiate containers.
 - If you change the server port, update this value accordingly (e.g., `127.0.0.1:<new_port>`).
 
-## `Turtlebot4-rviz` container
+## `Turtlebot4` container
 
-This container shows a typical client (RViz + Nav2) connecting to Turtlebot4 simulation (or a physical robot).
+This container shows a typical client (can be used to run RViz, Nav2 or slamtoolbox) connecting to Turtlebot4 simulation (or a physical robot).
 
 Works as a client of turtlebot4-discovery, and thus update the following variables if turtlebot4-discovery settings change.
 

@@ -19,7 +19,7 @@ This pacakge provides and utilizes following containers
 This packages contains two compose files that handles environmental variable configurations for Discovery Server on behalf of the user, so the user can focus on development without configuration worries
 
 - `compose.yaml` for simulated robot
-- `compose.physical` for physical robot (assumes Nav2 & Slamtoolbox is running natively on the robot)
+- `compose-physical.yaml` for physical robot
 
 ### Information
 
@@ -41,7 +41,7 @@ On the terminal run the following command to clone the repo
 git clone https://github.com/CollaborativeRoboticsLab/turtlebot4-docker.git
 ```
 
-## Start the workspace
+## Start the workspace based on Simulation
 
 Enter the folder
 
@@ -60,17 +60,14 @@ Required environmental variable need to be in a `.env` file. An `example.env` fi
 
 When the stack is up, the workspace container serves a web VS Code at http://127.0.0.1:8080.
 
-- Default password: `student` (set via `PASSWORD` in compose)
 - Workspace folder: `/workspace` (mounted from `./turtlebot4-workspace/workspace`)
 - Settings/extensions persist to:
     - `./turtlebot4-workspace/code-server/config` → `/root/.config/code-server`
     - `./turtlebot4-workspace/code-server/data` → `/root/.local/share/code-server`
 
-To change the password, edit the `PASSWORD` env in [compose.yaml](compose.yaml) under the `turtlebot4-workspace` service.
-
 <br>
 
-## Use the Simulation robot
+### Use the Simulation robot
 
 On the `compose.yaml` file, Change the following line to select mapping or localization.
 
@@ -83,63 +80,35 @@ command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", 
 
 Start the docker containers
 ```bash
-docker compose up
-```
-
-For GUI containers (simulation, rviz), allow X11 access on the host if needed:
-```bash
-# Allow local-root X11 access for GUI apps in containers
 xhost +local:root
+docker compose up
 ```
 
 ## Using the Physical robot and remote pc
 
 ### Mapping
 
-On the robot run following command to run the mapping process. Use a name like `office` to save the file
+Uncomment the following line in `compose-physical.yaml`. Use a name like `office` to save the file
 
-```bash
-ros2 launch turtlebot4_navigation slam.launch.py
+```yaml
+command: ["ros2", "launch", "turtlebot4_navigation", "slam.launch.py"]
 ```
 
-Move the robot using joystick to map the room.
+Move the robot using joystick/teleop to map the room.
 
-### Navigation and Localization
+### Localization
 
-On the robot run following command to run the localization process with a created map
+Uncomment the following line in `compose-physical.yaml` to run the localization process with a created map. rename `map:=` to match the map being used.
 
-```bash
-ros2 launch turtlebot4_navigation localization.launch.py map:=crlab.yaml
+```yaml
+command: ["ros2", "launch", "turtlebot4_navigation", "localization.launch.py", "map:=crlab.yaml"]
 ```
 
-And on another terminal run nav2
+Use the `2D pose Estimate` tool to align the robot's laser scan with the map.
 
-```bash
-ros2 launch turtlebot4_navigation nav2.launch.py
-```
+### Starting the system
 
-Then use the `2D pose Estimate` tool to align the robot's laser scan with the map. Finally give a Navigation goal via `Nav2 Goal` tool
-
-### Visualization on remote pc
-
-Export following commands on the remote pc terminal. Make sure the `ROS_DOMAIN_ID` and `ROS_DISCOVERY_SERVER` matches the robot's configuration.
-
-```bash
-export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-export ROS_SUPER_CLIENT=True
-export ROS_DOMAIN_ID=10
-export ROS_DISCOVERY_SERVER="10.42.0.1:11811;"
-```
-
-And then run the following command to open rviz
-
-```bash
-ros2 launch turtlebot4_viz view_navigation.launch.py
-```
-
-### Visualization on remote pc via docker container
-
-Update the `compose-physical.yaml` file with correct configuration on following parameters
+Update the `compose-physical.yaml` file or `.env` with correct configuration on following parameters
 
 ```yaml
 - ROS_DOMAIN_ID=10
@@ -150,12 +119,7 @@ Update the `compose-physical.yaml` file with correct configuration on following 
 
 Allow permission for UI interfaces from docker containers
 ```bash
-# Allow local-root X11 access for GUI apps in containers
 xhost +local:root
-```
-
-Start the docker containers
-```bash
 docker compose -f compose-physical.yaml up
 ```
 

@@ -1,5 +1,4 @@
 FROM ros:jazzy
-FROM ros:jazzy
 
 ENV DEBIAN_FRONTEND=noninteractive \
     RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
