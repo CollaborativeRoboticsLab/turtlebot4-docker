@@ -1,37 +1,4 @@
 services:
-  turtlebot4-rviz:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4:jazzy
-    command: ["ros2", "launch", "turtlebot4_viz", "view_navigation.launch.py"]
-    environment:
-      - PYTHONUNBUFFERED=1                # GUI related
-      - DISPLAY                           # GUI related
-      - QT_X11_NO_MITSHM=1                # GUI related
-      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
-      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
-      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
-    restart: unless-stopped
-    privileged: true
-    network_mode: host
-    ipc: host
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
-
-  turtlebot4-nav2:
-    image: ghcr.io/collaborativeroboticslab/turtlebot4:jazzy
-    command: ["ros2", "launch", "turtlebot4_navigation", "nav2.launch.py"]
-    environment:
-      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
-    restart: unless-stopped
-    privileged: true
-    network_mode: host
-    ipc: host
-
   turtlebot4-slamtoolbox:
     image: ghcr.io/collaborativeroboticslab/turtlebot4:jazzy
     command: ["ros2", "launch", "turtlebot4_navigation", "slam.launch.py"]
@@ -45,6 +12,44 @@ services:
     privileged: true
     network_mode: host
     ipc: host
+
+  turtlebot4-nav2:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4:jazzy
+    command: ["ros2", "launch", "turtlebot4_navigation", "nav2.launch.py"]
+    environment:
+      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
+      - ROS_SUPER_CLIENT=1
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    ipc: host
+    depends_on:
+      - turtlebot4-slamtoolbox
+
+  turtlebot4-rviz:
+    image: ghcr.io/collaborativeroboticslab/turtlebot4:jazzy
+    command: ["ros2", "launch", "turtlebot4_viz", "view_navigation.launch.py"]
+    environment:
+      - PYTHONUNBUFFERED=1                # GUI related
+      - DISPLAY                           # GUI related
+      - QT_X11_NO_MITSHM=1                # GUI related
+      - NVIDIA_VISIBLE_DEVICES=all        # GUI related
+      - NVIDIA_DRIVER_CAPABILITIES=all    # GUI related
+      - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
+      - ROS_SUPER_CLIENT=1
+      - TURTLEBOT4_DIAGNOSTICS=1
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    ipc: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw    # GUI related
+    depends_on:
+      - turtlebot4-nav2
 
   turtlebot4-workspace:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-workspace:jazzy
