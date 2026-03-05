@@ -7,7 +7,6 @@ services:
       - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -20,7 +19,6 @@ services:
       - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -40,8 +38,6 @@ services:
       - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
-      - TURTLEBOT4_DIAGNOSTICS=1
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -57,7 +53,6 @@ services:
       - ROS_DOMAIN_ID=${ROBOT_ROS_DOMAIN_ID:-10}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROBOT_ROS_DISCOVERY_SERVER:-10.0.0.192:11811}
-      - ROS_SUPER_CLIENT=1
       - NO_AT_BRIDGE=1
     restart: unless-stopped
     network_mode: host
