@@ -6,12 +6,12 @@ This pacakge provides and utilizes following containers
 
 - **Turtlebot4-Discovery**          
     Provides the discovery service for the simulation
+  
+- **Turtlebot4**   
+    Provides rviz, nav2 and slamtoolbox tools to interact with both simulation and physical robots
 
 - **Turtlebot4-Simulation**         
     Provides the Gazebo based simulation environment
-
-- **Turtlebot4-Rviz**   
-    Provides rviz tools to interact with both simulation and physical robots
 
 - **Turtlebot4-workspace**  
     Provides a workspace that can be used to test code on both simulation and physical robots
