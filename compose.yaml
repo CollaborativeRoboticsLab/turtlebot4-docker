@@ -2,7 +2,7 @@ services:
   turtlebot4-discovery:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-discovery:jazzy
     environment:
-      - ROS_DOMAIN_ID=0
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - SERVER_ID=${SERVER_ID:-0}
       - SERVER_IP=${SERVER_IP:-0.0.0.0}
@@ -13,7 +13,7 @@ services:
 
   turtlebot4-simulation:
     image: ghcr.io/collaborativeroboticslab/turtlebot4-simulation:jazzy
-    command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "use_sim_time:=true"]
+    command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "headless:=false", "use_sim_time:=true", "nav2:=true", "slam:=true"]
     environment:
       - PYTHONUNBUFFERED=1                # GUI related
       - DISPLAY                           # GUI related
@@ -23,7 +23,6 @@ services:
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROS_DISCOVERY_SERVER:-127.0.0.1:11811}
-      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -47,7 +46,6 @@ services:
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROS_DISCOVERY_SERVER:-127.0.0.1:11811}
-      - ROS_SUPER_CLIENT=1
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -63,7 +61,6 @@ services:
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
       - ROS_DISCOVERY_SERVER=${ROS_DISCOVERY_SERVER:-127.0.0.1:11811}
-      - ROS_SUPER_CLIENT=1
       - NO_AT_BRIDGE=1
     restart: unless-stopped
     tty: true
