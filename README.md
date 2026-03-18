@@ -21,14 +21,6 @@ This packages contains two compose files that handles environmental variable con
 - `compose.yaml` for simulated robot
 - `compose-physical.yaml` for physical robot
 
-### Information
-
-Read more information on following documents
-
-- [Container Information](./docs/containers.md)
-- [Troubleshooting](./docs/troubleshooting.md)
-
-
 ## Install Docker
 
 Follow the official instructions [here](https://docs.docker.com/engine/install/)
@@ -41,87 +33,17 @@ On the terminal run the following command to clone the repo
 git clone https://github.com/CollaborativeRoboticsLab/turtlebot4-docker.git
 ```
 
-## Start the workspace based on Simulation
+## Information
 
-Enter the folder
+Read more information on following documents
 
-```bash
-cd turtlebot4-docker
-```
+- [Container and Parameter Information](./docs/parameters.md)
+- [Troubleshooting](./docs/troubleshooting.md)
+- [Starting the simulation](./docs/simulation.md)
+- [Starting the physical robot](./docs/physical.md)
 
-Pull the latest docker containers
-```bash
-docker compose pull
-```
 
-Required environmental variable need to be in a `.env` file. An `example.env` file is available. Rename that file to `.env` and update the values as required. 
 
-### Workspace via code-server
-
-When the stack is up, the workspace container serves a web VS Code at http://127.0.0.1:8080.
-
-- Workspace folder: `/workspace` (mounted from `./turtlebot4-workspace/workspace`)
-- Settings/extensions persist to:
-    - `./turtlebot4-workspace/code-server/config` → `/root/.config/code-server`
-    - `./turtlebot4-workspace/code-server/data` → `/root/.local/share/code-server`
-
-<br>
-
-### Use the Simulation robot
-
-On the `compose.yaml` file, Change the following line to select mapping or localization.
-
-```yaml
-command: ["ros2", "launch", "turtlebot4_gz_bringup", "turtlebot4_gz.launch.py", "nav2:=true", "localization:=true", "slam:=false", "use_sim_time:=true"]
-```
-
-- `slam:=true` will allow the simulated robot to map the room. use gazebo joystick option to move the robot
-- `nav2:=true` along with `localization:=true` to navigate the robot. Default is warehouse
-
-Start the docker containers
-```bash
-xhost +local:root
-docker compose up
-```
-
-## Using the Physical robot and remote pc
-
-### Mapping
-
-Uncomment the following line in `compose-physical.yaml`. Use a name like `office` to save the file
-
-```yaml
-command: ["ros2", "launch", "turtlebot4_navigation", "slam.launch.py"]
-```
-
-Move the robot using joystick/teleop to map the room.
-
-### Localization
-
-Uncomment the following line in `compose-physical.yaml` to run the localization process with a created map. rename `map:=` to match the map being used.
-
-```yaml
-command: ["ros2", "launch", "turtlebot4_navigation", "localization.launch.py", "map:=crlab.yaml"]
-```
-
-Use the `2D pose Estimate` tool to align the robot's laser scan with the map.
-
-### Starting the system
-
-Update the `compose-physical.yaml` file or `.env` with correct configuration on following parameters
-
-```yaml
-- ROS_DOMAIN_ID=10
-- RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-- ROS_DISCOVERY_SERVER=10.42.0.1:11811
-- ROS_SUPER_CLIENT=1
-```
-
-Allow permission for UI interfaces from docker containers
-```bash
-xhost +local:root
-docker compose -f compose-physical.yaml up
-```
 
 ## Doing custom work
 

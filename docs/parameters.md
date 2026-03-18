@@ -4,8 +4,6 @@
 
 This container provides the discovery server utilized by the FastRTPS.
 
-To customize, change the following environment variables:
-
 ```yaml      
 - ROS_DOMAIN_ID=0
 - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -14,12 +12,15 @@ To customize, change the following environment variables:
 - SERVER_PORT=11811
 ```
 
-Parameter descriptions:
+**Parameter descriptions**
+
 - `ROS_DOMAIN_ID`: DDS domain identifier. All communicating nodes must share the same domain ID (default `0`). Use different IDs to isolate systems.
 - `RMW_IMPLEMENTATION`: ROS 2 middleware layer. `rmw_fastrtps_cpp` selects Fast DDS (required for discovery server).
 - `SERVER_ID`: Unique identifier for the discovery server instance. Use `0` for a single server; increment for multiple servers.
 - `SERVER_IP`: Bind address for the discovery server. `0.0.0.0` listens on all interfaces; set a specific host IP to restrict binding.
 - `SERVER_PORT`: Listening port for the discovery server (default `11811`). Ensure this port is open in your firewall.
+
+<br>
 
 ## `Turtlebot4-simulation` container
 
@@ -75,14 +76,12 @@ Works out-of-box as a client of turtlebot4-discovery, and thus update the follow
 - ROS_DOMAIN_ID=0
 - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 - ROS_DISCOVERY_SERVER=127.0.0.1:11811
- - PASSWORD=student
 ```
 
 **Parameter descriptions**
 - `ROS_DOMAIN_ID`: Same domain as simulation and discovery.
 - `RMW_IMPLEMENTATION`: Keep Fast DDS for discovery server support.
 - `ROS_DISCOVERY_SERVER`: Discovery server endpoint as above.
- - `PASSWORD`: code-server login password (default `student`). Set in compose.
 
 **Access & Folders**
 - URL: `http://127.0.0.1:8080` (served by the workspace container)
