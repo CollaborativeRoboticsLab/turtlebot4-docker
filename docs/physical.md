@@ -8,34 +8,53 @@ cd turtlebot4-docker
 
 Pull the latest docker containers
 ```bash
-docker compose pull
+docker compose -f compose-physical.yaml pull
 ```
 
 ### Configuration
 
 Required environmental variable need to be in a `.env` file. An `example.env` file is available. Rename that file to `.env` and update the values as required. 
 
-For the simulation, following parameters are relevant.
+For the real robot operation, following parameters are relevant. In this scenario, the turtlebot4 robot (The raspberry pi 4 on the robot), contains the discovery server.
+
+We connect our system (whatever we develop) with that, using following parameters.
 
 ```env
-SERVER_ID=0
-SERVER_IP=0.0.0.0
-SERVER_PORT=11811
-ROS_DOMAIN_ID=0
-ROS_DISCOVERY_SERVER=127.0.0.1:11811
+ROBOT_ROS_DOMAIN_ID=10
+ROBOT_ROS_DISCOVERY_SERVER=10.0.0.192:11811
 ```
 
-**SERVER_ID, SERVER_IP, SERVER_PORT**
-Since the nodes related to the simulation runs on a single computer, these three parameters don't need to change.
+**ROS_DISCOVERY_SERVER** 
+Each robot has a small display near its Power button. That shows the IP address. Other option is to connect to the Rpi's Ethernet via Ethernet cable and connect to the robot. Set remote machine's IP address 192.168.185.10, NetMask 255.255.255.0 and use SSH to connect. Use following command. Password is `turtlebot4`
+
+```bash
+ssh ubuntu@192.168.185.3
+```
+
+Once in the robot, use one of the following commands to check the ip address 
+
+```bash
+ros2 topic echo /ip
+```
+
+```bash
+ip a #look for wlan
+```
+
+On your host macchine use this as the IP address for ROS_DISCOVERY_SERVER. Port is 11811
+
 
 **ROS_DOMAIN_ID**
-Since there are students sharing a single wifi network, this needs to be set. Update this to be unique from other groups. Use a value between 0-255.
 
-**ROS_DISCOVERY_SERVER** 
-Leave this as it is if the SERVER_IP=0.0.0.0 and SERVER_PORT=11811, If these default values change, update the ROS_DISCOVERY_SERVER parameters such that,
-`ROS_DISCOVERY_SERVER=SERVER_IP:SERVER_PORT`
+Use the domain id of the robot, generally this is matched to the robot's name. If the robot is `TBOT4-001`, the ROS_DOMAIN_ID is `1`.
 
+Otherway to find out is SSH into the robot and run the following command
 
+```bash
+echo $ROS_DOMAIN_ID
+```
+
+Once these parameters has been identified update the `.env` file to match.
 
 ## Using the Physical robot and remote pc
 
@@ -63,18 +82,12 @@ Use the `2D pose Estimate` tool to align the robot's laser scan with the map.
 
 > Note: Comparatively, SLAM is more resource intensive compared to localization. So its often recommended to use the localization where ever possible for long term exections 
 
-### Starting the system
+### Connecting the host machine with the robot
 
-Update the `compose-physical.yaml` file or `.env` with correct configuration on following parameters
+Update the `.env` as mentioned above. Then,
 
-```yaml
-- ROS_DOMAIN_ID=10
-- RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-- ROS_DISCOVERY_SERVER=10.42.0.1:11811
-- ROS_SUPER_CLIENT=1
-```
+Allow permission for UI interfaces from docker containers and start the containers.
 
-Allow permission for UI interfaces from docker containers
 ```bash
 xhost +local:root
 docker compose -f compose-physical.yaml up
