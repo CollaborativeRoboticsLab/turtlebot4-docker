@@ -13,6 +13,9 @@ RUN apt-get update && \
             ros-jazzy-navigation2 \
             ros-jazzy-nav2-bringup \
             ros-jazzy-slam-toolbox \
+            ros-jazzy-rviz2 \
+            ros-jazzy-tf2-tools \
+            ros-jazzy-desktop \
             curl \
             ca-certificates && \
         curl -fOL https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb && \
