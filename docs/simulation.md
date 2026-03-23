@@ -53,13 +53,3 @@ Start the docker containers
 xhost +local:root
 docker compose up
 ```
-
-### Workspace via code-server
-
-When the stack is up, the workspace container serves a web VS Code at http://127.0.0.1:8080. Use this for your development work as the enviorment has been configured to work with turtlebot robots.
-
-- Workspace folder: `/workspace` (mounted from `./turtlebot4-workspace/workspace`)
-- Settings/extensions persist to:
-    - `./turtlebot4-workspace/code-server/config` → `/root/.config/code-server`
-    - `./turtlebot4-workspace/code-server/data` → `/root/.local/share/code-server`
-
