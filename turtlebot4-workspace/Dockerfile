@@ -8,6 +8,7 @@ RUN apt-get update && \
             ros-jazzy-turtlebot4-msgs \
             ros-jazzy-turtlebot4-navigation \
             ros-jazzy-turtlebot4-node \
+            ros-jazzy-turtlebot4-desktop \
             ros-jazzy-rmw-fastrtps-cpp \
             ros-jazzy-rmw-cyclonedds-cpp \
             ros-jazzy-navigation2 \
@@ -16,6 +17,7 @@ RUN apt-get update && \
             ros-jazzy-rviz2 \
             ros-jazzy-tf2-tools \
             ros-jazzy-desktop \
+            ros-jazzy-rqt-tf-tree \
             curl \
             ca-certificates && \
         curl -fOL https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb && \
