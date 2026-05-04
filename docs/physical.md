@@ -82,6 +82,16 @@ Use the `2D pose Estimate` tool to align the robot's laser scan with the map.
 
 > Note: Comparatively, SLAM is more resource intensive compared to localization. So its often recommended to use the localization where ever possible for long term exections 
 
+### Navigation
+
+SSH into the robot and run the following command to start the navigation process
+
+```bash
+ros2 launch turtlebot4_navigation nav2.launch.py
+```
+
+Move the robot using joystick/teleop to navigate the room.
+
 ### Connecting the host machine with the robot
 
 Update the `.env` as mentioned above. Then,
@@ -93,3 +103,14 @@ xhost +local:root
 docker compose -f compose-physical.yaml up
 ```
 
+Next, open a terminal in the `turtlebot4` container and run the following command to check the connection with the robot
+
+```bash
+ros2 topic list
+```
+
+Finally run the visualization tool to see the robot's position on the map
+
+```bash
+ros2 launch turtlebot4_viz view_navigation.launch.py
+```
